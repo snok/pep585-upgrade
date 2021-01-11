@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "pep585-upgrade"
+version = "0.1.0"
+description = ""
+authors = ["Sondre Lillebø Gundersen <sondrelg@live.no>"]
+license = "BSD-4"
+packages = [
+    { include = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.9.3"
+pytest = "^6.2.1"
+ipython = "^7.19.0"
+coverage = "^5.3.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+upgrade_type_hints_script = 'src.upgrade_type_hints:main'
+
+[tool.black]
+line-length = 110
+skip-string-normalization = true
+exclude = '(/(\.venv)/)'
+
+[tool.isort]
+profile = "black"
+combine_as_imports = true
+line_length = 110

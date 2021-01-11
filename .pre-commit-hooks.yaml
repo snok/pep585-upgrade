@@ -1,0 +1,7 @@
+- id: upgrade-type-hints
+  name: Upgrade type hints
+  description: Upgrades type hints to new types introduced in PEP 585
+  entry: upgrade_type_hints_script
+  language: python
+  types: [ python ]
+  stages: [ commit ]
