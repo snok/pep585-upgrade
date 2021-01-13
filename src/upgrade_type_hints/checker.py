@@ -27,7 +27,7 @@ def flatten_list(_list: list) -> list:
 
 def get_ast_objects(node: ast.Module) -> list[ast.AST]:
     """
-    Returns all function arguments, function return values, and annotation objs.
+    Returns all function arguments, function return values, and annotation objects.
     """
     items = []
     for item in ast.walk(node):
@@ -91,8 +91,10 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
         # See the test_ast_attribute test for insight on how this works.
         return format_dict(f'{node.value.id}.{node.attr}', node)
     elif node is None or isinstance(node, ast.Constant) and node.value is None:
+        # We don't care about these
         return {}
 
+    # TODO: Remove
     raise Exception(f'Something went wrong: {node.__dict__}')
 
 

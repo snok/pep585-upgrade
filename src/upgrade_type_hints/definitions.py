@@ -20,11 +20,7 @@ imported_unique_types = {
     're.Match': {'from': 're', 'name': 'Match'},
 }
 
-# These replacements are tricky, because there is no difference between
-# the typing annotation name and the new name. We therefore need to
-# be careful that we're actually substituting a typing value, and
-# not a "proper" value. Otherwise we might re-replace the same variables
-# over and over and over.
+# These types are identical before and after. All we need to do is change the import.
 imported_types: dict[str, dict[str, str]] = {
     'OrderedDict': {'from': 'collections', 'name': 'OrderedDict'},
     'Counter': {'from': 'collections', 'name': 'Counter'},
@@ -69,14 +65,14 @@ def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple
     filtered_import_list = []
 
     for item in annotations:
-        if item['annotation'] in native_types:
+        if item['annotation'].replace('typing.', '') in native_types:
             item['new_annotation'] = native_types[item['annotation']]
             filtered_native_type_list.append(item)
-        if item['annotation'] in imported_unique_types:
+        elif item['annotation'].replace('typing.', '') in imported_unique_types:
             item['new_annotation'] = imported_unique_types[item['annotation']]['name']
             item['import_from'] = imported_unique_types[item['annotation']]['from']
             filtered_unique_import_list.append(item)
-        if item['annotation'] in imported_types:
+        elif item['annotation'].replace('typing.', '') in imported_types:
             item['new_annotation'] = imported_types[item['annotation']]['name']
             item['import_from'] = imported_types[item['annotation']]['from']
             filtered_import_list.append(item)

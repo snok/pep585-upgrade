@@ -1,3 +1,0 @@
-To test the current script:
-
-python -m upgrade_type_hints /Users/sondrelg/Documents/pep585-upgrade/tests/typing_example.py
