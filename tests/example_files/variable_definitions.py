@@ -45,8 +45,3 @@ x: typing.OrderedDict
 x: Counter
 x: typing.Counter
 x: ChainMap
-
-
-def test(x: Counter, y: List[Tuple[str, int]], z: typing.Optional[List] = None) -> Dict[str, int]:
-    print(x, y, z)
-    return {'test': 1}

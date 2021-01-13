@@ -1,0 +1,12 @@
+[run]
+source = src
+
+[report]
+ignore_errors = True
+omit =
+    */tests/*
+    */.venv/*,
+    */python3*
+
+show_missing = True
+skip_covered = True

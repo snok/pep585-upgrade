@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from typing import Optional, Sequence
 
-from .checker import AnnotationFinder
+from .checker import find_annotations_in_file
 from .definitions import check_if_types_need_substitution
 from .utils import str_to_bool
 
@@ -124,7 +124,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     return_value = 0
 
     for filename in args.filenames:
-        annotations = AnnotationFinder(filename).run()
+        annotations = find_annotations_in_file(filename)
         native, unique_import, repeat_import = check_if_types_need_substitution(annotations)
         if native or unique_import or repeat_import:
             fix_file(filename, args.futures, native, unique_import, repeat_import)
