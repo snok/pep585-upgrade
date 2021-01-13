@@ -1,32 +1,33 @@
-from collections.abc import ValuesView
-from collections.abc import Generator
-from collections.abc import MutableMapping
-from collections.abc import Collection
-from contextlib import AbstractAsyncContextManager
-from collections import ChainMap
-from collections.abc import Mapping
-from collections import deque
-from collections.abc import KeysView
-from collections.abc import Iterator
-from collections.abc import Callable
-from collections.abc import Coroutine
-from collections.abc import MutableSequence
-from collections.abc import Sequence
-from collections.abc import Reversible
-from collections.abc import ItemsView
-from collections.abc import AsyncIterator
-from collections.abc import AsyncGenerator
-from collections.abc import Awaitable
-from collections import Counter
-from collections.abc import ByteString
-from contextlib import AbstractContextManager
-from collections.abc import Iterable
-from collections.abc import AsyncIterable
-from collections.abc import Container
+# flake8: noqa
 import typing
+from collections import ChainMap, Counter, deque
+from collections.abc import (
+    AsyncGenerator,
+    AsyncIterable,
+    AsyncIterator,
+    Awaitable,
+    ByteString,
+    Callable,
+    Collection,
+    Container,
+    Coroutine,
+    Generator,
+    ItemsView,
+    Iterable,
+    Iterator,
+    KeysView,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Reversible,
+    Sequence,
+    ValuesView,
+)
+from contextlib import AbstractAsyncContextManager, AbstractContextManager
 from typing import (
-    Abstractset,
     AbstractAsyncContextManager,
+    AbstractContextManager,
+    Abstractset,
     AsyncGenerator,
     AsyncIterable,
     AsyncIterator,
@@ -36,19 +37,14 @@ from typing import (
     ChainMap,
     Collection,
     Container,
-    AbstractContextManager,
     Coroutine,
     Counter,
     Defaultdict,
-    deque,
-    dict,
-    frozenset,
     Generator,
     ItemsView,
     Iterable,
     Iterator,
     KeysView,
-    list,
     Mapping,
     MappingView,
     MutableMapping,
@@ -57,10 +53,14 @@ from typing import (
     Ordereddict,
     Reversible,
     Sequence,
+    ValuesView,
+    deque,
+    dict,
+    frozenset,
+    list,
     set,
     tuple,
     type,
-    ValuesView,
 )
 
 x: int
@@ -91,56 +91,378 @@ x: typing.Defaultdict
 x: Ordereddict
 x: typing.Ordereddict
 x: Counter
+
+
+def test(x: Counter, y: str, z: typing.Optional[list] = None) -> str:
+    pass
+
+
 x: Counter
+
+
+def test(x: Counter) -> list[str]:
+    pass
+
+
 x: ChainMap
+
+
+def test(x: ChainMap) -> tuple[int]:
+    pass
+
+
 x: ChainMap
+
+
+def test(x: ChainMap) -> None:
+    pass
+
+
 x: Awaitable
+
+
+def test(x: Awaitable) -> None:
+    pass
+
+
 x: Awaitable
+
+
+def test(x: Awaitable) -> None:
+    pass
+
+
 x: Coroutine
+
+
+def test(x: Coroutine) -> None:
+    pass
+
+
 x: Coroutine
+
+
+def test(x: Coroutine) -> None:
+    pass
+
+
 x: AsyncIterable
+
+
+def test(x: AsyncIterable) -> None:
+    pass
+
+
 x: AsyncIterable
+
+
+def test(x: AsyncIterable) -> None:
+    pass
+
+
 x: AsyncIterator
+
+
+def test(x: AsyncIterator) -> None:
+    pass
+
+
 x: AsyncIterator
+
+
+def test(x: AsyncIterator) -> None:
+    pass
+
+
 x: AsyncGenerator
+
+
+def test(x: AsyncGenerator) -> None:
+    pass
+
+
 x: AsyncGenerator
+
+
+def test(x: AsyncGenerator) -> None:
+    pass
+
+
 x: Iterable
+
+
+def test(x: Iterable) -> None:
+    pass
+
+
 x: Iterable
+
+
+def test(x: Iterable) -> None:
+    pass
+
+
 x: Iterator
+
+
+def test(x: Iterator) -> None:
+    pass
+
+
 x: Iterator
+
+
+def test(x: Iterator) -> None:
+    pass
+
+
 x: Generator
+
+
+def test(x: Generator) -> None:
+    pass
+
+
 x: Generator
+
+
+def test(x: Generator) -> None:
+    pass
+
+
 x: Reversible
+
+
+def test(x: Reversible) -> None:
+    pass
+
+
 x: Reversible
+
+
+def test(x: Reversible) -> None:
+    pass
+
+
 x: Container
+
+
+def test(x: Container) -> None:
+    pass
+
+
 x: Container
+
+
+def test(x: Container) -> None:
+    pass
+
+
 x: Collection
+
+
+def test(x: Collection) -> None:
+    pass
+
+
 x: Collection
+
+
+def test(x: Collection) -> None:
+    pass
+
+
 x: Callable
+
+
+def test(x: Callable) -> None:
+    pass
+
+
 x: Callable
+
+
+def test(x: Callable) -> None:
+    pass
+
+
 x: Abstractset
+
+
+def test(x: Abstractset) -> typing.Literal['test']:
+    pass
+
+
 x: typing.Abstractset
+
+
+def test(x: typing.Abstractset) -> None:
+    pass
+
+
 x: Mutableset
+
+
+def test(x: Mutableset) -> None:
+    pass
+
+
 x: typing.Mutableset
+
+
+def test(x: typing.Mutableset) -> None:
+    pass
+
+
 x: Mapping
+
+
+def test(x: Mapping) -> None:
+    pass
+
+
 x: Mapping
+
+
+def test(x: Mapping) -> None:
+    pass
+
+
 x: MutableMapping
+
+
+def test(x: MutableMapping) -> None:
+    pass
+
+
 x: MutableMapping
+
+
+def test(x: MutableMapping) -> None:
+    pass
+
+
 x: Sequence
+
+
+def test(x: Sequence) -> None:
+    pass
+
+
 x: Sequence
+
+
+def test(x: Sequence) -> None:
+    pass
+
+
 x: MutableSequence
+
+
+def test(x: MutableSequence) -> None:
+    pass
+
+
 x: MutableSequence
+
+
+def test(x: MutableSequence) -> None:
+    pass
+
+
 x: ByteString
+
+
+def test(x: ByteString) -> None:
+    pass
+
+
 x: ByteString
+
+
+def test(x: ByteString) -> None:
+    pass
+
+
 x: MappingView
+
+
+def test(x: MappingView) -> None:
+    pass
+
+
 x: MappingView
+
+
+def test(x: MappingView) -> None:
+    pass
+
+
 x: KeysView
+
+
+def test(x: KeysView) -> None:
+    pass
+
+
 x: KeysView
+
+
+def test(x: KeysView) -> None:
+    pass
+
+
 x: ItemsView
+
+
+def test(x: ItemsView) -> None:
+    pass
+
+
 x: ItemsView
+
+
+def test(x: ItemsView) -> None:
+    pass
+
+
 x: ValuesView
+
+
+def test(x: ValuesView) -> None:
+    pass
+
+
 x: ValuesView
+
+
+def test(x: ValuesView) -> None:
+    pass
+
+
 x: AbstractContextManager
+
+
+def test(x: AbstractContextManager) -> None:
+    pass
+
+
 x: AbstractContextManager
+
+
+def test(x: AbstractContextManager) -> None:
+    pass
+
+
 x: AbstractAsyncContextManager
+
+
+def test(x: AbstractAsyncContextManager) -> None:
+    pass
+
+
 x: AbstractAsyncContextManager
+
+
+def test(x: AbstractAsyncContextManager) -> None:
+    pass
