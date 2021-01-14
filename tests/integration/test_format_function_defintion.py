@@ -13,9 +13,7 @@ def test_format_function_definition():
 
     # Execute the pre-commit hook as a CLI
     os.chdir(file_path.parent)
-    os.system(
-        f'poetry run upgrade_type_hints_script {file_path / "example_files/function_definition.py"}'
-    )
+    os.system(f'poetry run upgrade_type_hints_script {file_path / "example_files/function_definition.py"}')
 
     # Load the changed file
     with open('tests/example_files/function_definition.py', 'rb') as f:

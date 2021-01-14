@@ -60,11 +60,7 @@ def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple
     filtered_import_list = []
 
     for item in annotations:
-        try:
-            stripped_annotation = item['annotation'].replace('typing.', '')
-        except KeyError:
-            print(f'Failed to index item: {item}')
-            raise
+        stripped_annotation = item['annotation'].replace('typing.', '')
         if stripped_annotation in native_types:
             item['new_annotation'] = native_types[stripped_annotation]
             filtered_native_type_list.append(item)

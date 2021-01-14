@@ -86,12 +86,11 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
         # We don't care about these
         return {}
 
-    print(f'Unhandled node type: {type(node)}')
-    try:
-        print(node.__dict__)
-    except:
-        pass
-    # print('Something went wrong. Please report an issue to https://github.com/sondrelg/pep585-upgrade/issues')
+    print(
+        'Found an unhandled ast object. '
+        'Please report an issue to '
+        'https://github.com/sondrelg/pep585-upgrade/issues'
+    )
 
 
 def map_imports(tree: ast.Module):
