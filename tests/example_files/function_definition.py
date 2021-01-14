@@ -1,49 +1,51 @@
 import re
 import typing
-from collections import ChainMap, Counter, OrderedDict, defaultdict, deque
-from collections.abc import (
+from typing import (
+    AbstractSet,
+    AsyncContextManager,
     AsyncGenerator,
-    AsyncIterable,
     AsyncIterator,
-    Awaitable,
-    ByteString,
     Callable,
+    ChainMap,
     Collection,
     Container,
-    Coroutine,
-    Generator,
+    Counter,
+    Deque,
+    Dict,
+    FrozenSet,
     ItemsView,
     Iterable,
     Iterator,
     KeysView,
+    List,
     Mapping,
-    MappingView,
+    Match,
     MutableMapping,
-    MutableSequence,
     MutableSet,
+    OrderedDict,
+    Pattern,
     Reversible,
     Sequence,
     Set,
+    Type,
+    Union,
     ValuesView,
 )
-from contextlib import AbstractAsyncContextManager, AbstractContextManager
-from re import Match, Pattern
-from typing import Union
 
 
 def very_complex_function(
-    a: tuple[list[dict[set[frozenset[type, deque]]]]],
-    b: defaultdict[OrderedDict[Counter, ChainMap]],
-    c: Awaitable,
-    d: Coroutine,
-    e: AsyncIterable[AsyncIterator[AsyncGenerator[Iterable, Iterator]]],
-    f: Generator[Reversible],
-    g: typing.Union[Callable, Set],
+    a: typing.Tuple[List[Dict[Set[FrozenSet[Type, Deque]]]]],
+    b: typing.DefaultDict[OrderedDict[Counter, ChainMap]],
+    c: typing.Awaitable,
+    d: typing.Coroutine,
+    e: typing.AsyncIterable[AsyncIterator[AsyncGenerator[Iterable, Iterator]]],
+    f: typing.Generator[Reversible],
+    g: typing.Union[Callable, AbstractSet],
     h: typing.Union[MutableSet[Mapping, MutableMapping], Sequence],
-    i: MutableSequence[Container[Collection]],
-    j: ByteString,
-    k: MappingView[KeysView[ItemsView[ValuesView]]],
-    l: AbstractContextManager,
-    m: typing.Optional[AbstractAsyncContextManager],
+    i: typing.MutableSequence[Container[Collection]],
+    j: typing.ByteString,
+    k: typing.MappingView[KeysView[ItemsView[ValuesView]]],
+    l: typing.ContextManager,
+    m: typing.Optional[AsyncContextManager],
 ) -> Union[Pattern, Match]:
     return re.compile(f'{a},{b},{c},{d},{e},{f},{g},{h},{i},{j},{k},{l},{m}')

@@ -1,18 +1,17 @@
-> Still a work in progress
-
 # PEP585 Upgrade
 
-This is a [pre-commit](https://pre-commit.com/) hook for upgrading type hints
+This is a [pre-commit](https://pre-commit.com/) hook configured to automatically upgrade your type hints
 to the new native types implemented in [PEP 585](https://www.python.org/dev/peps/pep-0585/).
 
-The new types are natively supported as in Python `3.9.0`, but were also backported to version `3.7+`, using the futures import.
-A complete list of the new types are shown below.
+They are available with any Python version above `3.7`, but if you're below `3.9` you will need to run it with `futures-imports=true`.
+
+A complete list of the newly introduced types are shown below.
 <details>
-<summary>Show all new types</summary>
+<summary><b>See the complete list of new types</b></summary>
 
 <br>
 
-| Typing import    	            | Upgraded to  	                                |
+| Used to be     	            | Was upgraded to  	                                |
 |---------------------------    |-------------------------------------------    |
 | typing.Tuple     	            |  tuple     	                                |
 | typing.List      	            |  list      	                                |
@@ -55,30 +54,59 @@ A complete list of the new types are shown below.
 
 </details>
 
+### Show me
+
+In a nutshell, this code
+
+```python
+from typing import List, Tuple, Dict, Set, FrozenSet
+
+def do_thing(x: List[Tuple[str, ...]], y: Dict[str, Set[str]]) -> FrozenSet:
+```
+
+becomes this
+
+```python
+def do_thing(x: list[tuple[str, ...]], y: dict[str, set[str]]) -> frozenset:
+```
+
+or this, if you enable the futures option
+
+```python
+from __future__ import annotations
+
+def do_thing(x: list[tuple[str, ...]], y: dict[str, set[str]]) -> frozenset:
+```
 
 ### Features:
-- [x] Performs in-line substitution for new types
-- [x] Adds required imports from `collections`, `contextlib`, and `re` types where needed
-- [x] Adds `__futures__` imports if the `futures` option is enabled
-- [ ] Removes unused typing imports
+- [x] Perform in-line substitution for new types
+- [x] Add required imports for non-builtin types, when they are replaced in
+- [x] Add `__futures__` imports if enabled
+- [x] Remove the (now unused) typing imports
+- [ ] ~~More complex import handling, sorting, and removal~~
 
-For more information about available arguments, see the [function definition](https://github.com/sondrelg/pep585-upgrade/blob/master/upgrade_type_hints.py#L90).
-
+As a small aside; since thorough import handling isn't in the scope of this package,
+we would recommend running this in tandem with a hook like `isort` to aggregate
+and sort your imports. Otherwise you risk needing to do *some* manual cleanup
+from time to time (though it should be pretty rare).
 
 ### Config
 
-To use this with pre-commit, simply add this to your config file:
+To use this with [pre-commit](https://pre-commit.com/), simply add this to your config file:
 
 ```yaml
 - repo: https://github.com/sondrelg/pep585-upgrade
-  rev: master
+  rev: master  # or add a specific commit sha
   hooks:
   - id: upgrade-type-hints
+    args: [ 'futures=true' ]
 ```
+
+For more information about available arguments, see the [function definitions](https://github.com/sondrelg/pep585-upgrade/blob/master/src/upgrade_type_hints/update.py#L95).
 
 ### Running this once
 
-If you wish to run this once on your codebase, that's not possible *without* pre-commit, as it piggybacks on pre-commit quite a bit.
+If you wish to run this once on your codebase, that's not easy to do *without* pre-commit, as it piggybacks on that process quite a bit.
 
 However, installing pre-commit and configuring the hook to run will take you less than a minute. These are the steps:
 
@@ -86,3 +114,7 @@ However, installing pre-commit and configuring the hook to run will take you les
 - Run `touch pre-commit-config.yaml`
 - Copy the configuration shown above into the file
 - Run `pre-commit run --all-files`
+
+### Supporting the project
+
+Contributions are of course always welcome, and please leave a ✭ if this project helped you 👏

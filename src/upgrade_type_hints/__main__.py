@@ -1,3 +1,3 @@
-from .upgrade_type_hints import main
+from .main import main
 
 exit(main())
