@@ -10,7 +10,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-isort = "*"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.9.3"

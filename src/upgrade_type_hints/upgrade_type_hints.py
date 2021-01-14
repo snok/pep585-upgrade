@@ -16,7 +16,6 @@ def replace_type(item: dict, line) -> tuple[bytes, dict]:
     new_annotation = bytes(item['new_annotation'], encoding='utf-8')
     pattern = b'[^a-zA-Z](' + item['annotation'].encode(encoding='utf-8') + b')[^a-zA-Z]'
     match = re.search(pattern, line)
-    print(f'Removing {line[match.start(1):match.end(1)]} and inserting {new_annotation}')
     line = line[: match.start(1)] + line[match.end(1) :]
     line = line[: match.start(1)] + new_annotation + line[match.start(1) :]
     return line
@@ -106,13 +105,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         'to a project running Python < 3.9',
     )
     args = parser.parse_args(argv)
-
-    import shutil
-
-    shutil.copyfile(
-        '/Users/sondrelg/Documents/pep585-upgrade/tests/example_files/function_definition_template.py',
-        '/Users/sondrelg/Documents/pep585-upgrade/tests/example_files/function_definition.py',
-    )
 
     return_value = 0
 

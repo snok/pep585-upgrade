@@ -39,44 +39,49 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
     """
     if isinstance(node, ast.Str):
         return format_dict(node.value, node)
+
     elif isinstance(node, ast.Subscript):
-        l = []
+        sublist = []
         if hasattr(node, 'slice'):
-            l.append(get_annotations(node.slice))
+            sublist.append(get_annotations(node.slice))
         if hasattr(node, 'value'):
-            l.append(get_annotations(node.value))
-        if l:
-            return flatten_list([i for i in l if i is not None])
+            sublist.append(get_annotations(node.value))
+        if sublist:
+            return flatten_list([i for i in sublist if i is not None])
+
     elif isinstance(node, ast.Tuple):
         return [get_annotations(x) for x in node.elts]
+
     elif isinstance(node, ast.Name):
         return format_dict(node.id, node)
+
     elif isinstance(node, ast.AnnAssign):
-        l = []
+        sublist = []
         annotation_node = node.annotation
         if hasattr(annotation_node, 'slice'):
-            l.append(get_annotations(annotation_node.slice))
+            sublist.append(get_annotations(annotation_node.slice))
         if hasattr(annotation_node, 'value'):
             if isinstance(annotation_node.value, str):
-                l.append(format_dict(annotation_node.value, annotation_node))
+                sublist.append(format_dict(annotation_node.value, annotation_node))
             else:
-                l.append(get_annotations(annotation_node.value))
+                sublist.append(get_annotations(annotation_node.value))
         if hasattr(annotation_node, 'id'):
-            l.append(format_dict(annotation_node.id, annotation_node))
-        if l:
-            return flatten_list([i for i in l if i is not None])
+            sublist.append(format_dict(annotation_node.id, annotation_node))
+        if sublist:
+            return flatten_list([i for i in sublist if i is not None])
+
     elif isinstance(node, ast.Attribute):
         # This probably isn't really how to handle attribute nodes,
         # but it is important that we save a typing.Dict annotation
         # in a way where we can substitute the annotation later.
         # See the test_ast_attribute test for insight on how this works.
         return format_dict(f'{node.value.id}.{node.attr}', node)
+
     elif node is None or isinstance(node, ast.Constant) and node.value is None:
         # We don't care about these
         return {}
 
-    # TODO: Remove
-    raise Exception(f'Something went wrong: {node.__dict__}')
+    print('Something went wrong. Please report an issue to https://github.com/sondrelg/pep585-upgrade/issues')
 
 
 def map_imports(tree: ast.Module):
