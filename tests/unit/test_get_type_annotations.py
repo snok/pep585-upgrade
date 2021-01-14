@@ -112,3 +112,38 @@ class TestAst:
         assert just_annotations.count('list') == 1
         assert just_annotations.count('str') == 1
         assert just_annotations.count('int') == 1
+
+    def test_simple_typing_import(self):
+        example_code = 'import typing\n\nx: typing.List'
+        tree = ast.parse(example_code)
+        objects = get_ast_objects(tree)
+        annotations = flatten_list([get_annotations(obj) for obj in objects])
+        just_annotations = [i['annotation'] for i in annotations]
+        assert just_annotations == ['typing.List']
+
+    def test_custom_type(self):
+        example_code = 'x = Tuple[float, float, float]'
+        tree = ast.parse(example_code)
+        objects = get_ast_objects(tree)
+        annotations = flatten_list([get_annotations(obj) for obj in objects])
+        just_annotations = [i['annotation'] for i in annotations]
+        assert just_annotations == ['Tuple', 'float', 'float', 'float']
+
+    def test_star_import(self):
+        example_code = textwrap.dedent('''
+            from typing import List
+            
+            x: List
+            
+            
+            def b(*, x: List[str]):
+                pass
+        ''')
+        tree = ast.parse(example_code)
+        objects = get_ast_objects(tree)
+        annotations = flatten_list([get_annotations(obj) for obj in objects])
+        assert annotations == [
+            {'annotation': 'List', 'line_number': 4, 'end_line_number': 4, 'column_offset': 3, 'end_column_offset': 7},
+            {'annotation': 'str', 'line_number': 7, 'end_line_number': 7, 'column_offset': 17, 'end_column_offset': 20},
+            {'annotation': 'List', 'line_number': 7, 'end_line_number': 7, 'column_offset': 12, 'end_column_offset': 16}
+        ]

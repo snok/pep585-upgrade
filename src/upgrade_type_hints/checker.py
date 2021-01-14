@@ -13,7 +13,7 @@ def get_ast_objects(node: ast.Module) -> list[ast.AST]:
     items = []
     for item in ast.walk(node):
         if isinstance(item, ast.FunctionDef):
-            for argument in item.args.args:
+            for argument in item.args.args + item.args.kwonlyargs:
                 if hasattr(argument, 'annotation'):
                     items.append(argument.annotation)
             if item.returns:
@@ -56,8 +56,13 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
         return format_dict(node.id, node)
 
     elif isinstance(node, ast.AnnAssign):
-        sublist = []
         annotation_node = node.annotation
+
+        if isinstance(annotation_node, ast.Attribute):
+            # example: typing.List
+            return get_annotations(annotation_node)
+
+        sublist = []
         if hasattr(annotation_node, 'slice'):
             sublist.append(get_annotations(annotation_node.slice))
         if hasattr(annotation_node, 'value'):
@@ -102,6 +107,10 @@ def map_imports(tree: ast.Module):
     imports = {'lineno': None, 'end_lineno': None, 'names': set()}
     for item in tree.body:
         if isinstance(item, (ast.Import, ast.ImportFrom)):
+            if isinstance(item, ast.ImportFrom) and item.module != 'typing':
+                continue
+            elif isinstance(item, ast.Import) and all(i.name != 'typing' for i in item.names):
+                continue
             imports['lineno'] = item.lineno
             imports['end_lineno'] = item.end_lineno
             for name in item.names:

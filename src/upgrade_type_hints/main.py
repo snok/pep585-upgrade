@@ -32,7 +32,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         annotation_list, imports = find_annotations_and_imports_in_file(filename)
         native_types, imported_types = check_if_types_need_substitution(annotation_list)
         imports_to_delete = map_imports_to_delete([native_types, imported_types], imports)
-        if native_types or imported_types:
+        if native_types or imported_types and imports_to_delete:
             print(f'Fixing {filename}')
             fix_file(filename, args.futures, native_types, imported_types, imports_to_delete)
             return_value = 1

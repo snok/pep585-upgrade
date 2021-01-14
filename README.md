@@ -115,6 +115,21 @@ However, installing pre-commit and configuring the hook to run will take you les
 - Copy the configuration shown above into the file
 - Run `pre-commit run --all-files`
 
+### Known imperfections
+
+- We have a hard time removing common `import typing` imports, since we don't have a full inventory of all possible places `typing` could be used. Seeing something like this, you might think this is easy to handle
+
+    ```python
+    import typing
+
+    x: typing.List
+    ```
+
+    but extending this example to a thousand-line file, the way we've structured the logic, there is no way to know whether there is a valid `typing.Optional` somewhere in the file.
+- Custom type declarations are not a part of the ast objects we look at, so it's technically
+  possible for the hook to remove a `typing` import (that should be removed according to the type replacements otherwise made in the file)
+  where the same import is used to declare a custom type.
+
 ### Supporting the project
 
 Please leave a ✭ if this project helped you 👏 and contributions are always welcome!
