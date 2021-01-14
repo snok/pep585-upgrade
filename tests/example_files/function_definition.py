@@ -1,4 +1,5 @@
 import re
+import typing
 from collections import ChainMap, Counter, OrderedDict, defaultdict, deque
 from collections.abc import (
     AsyncGenerator,
@@ -27,47 +28,7 @@ from collections.abc import (
 )
 from contextlib import AbstractAsyncContextManager, AbstractContextManager
 from re import Match, Pattern
-from typing import (
-    AbstractSet,
-    AsyncContextManager,
-    AsyncGenerator,
-    AsyncIterable,
-    AsyncIterator,
-    Awaitable,
-    ByteString,
-    Callable,
-    ChainMap,
-    Collection,
-    Container,
-    ContextManager,
-    Coroutine,
-    Counter,
-    DefaultDict,
-    Deque,
-    Dict,
-    FrozenSet,
-    Generator,
-    ItemsView,
-    Iterable,
-    Iterator,
-    KeysView,
-    List,
-    Mapping,
-    MappingView,
-    Match,
-    MutableMapping,
-    MutableSequence,
-    MutableSet,
-    Optional,
-    OrderedDict,
-    Pattern,
-    Reversible,
-    Sequence,
-    Set,
-    Tuple,
-    Type,
-    Union,
-)
+from typing import Union
 
 
 def very_complex_function(
@@ -77,12 +38,12 @@ def very_complex_function(
     d: Coroutine,
     e: AsyncIterable[AsyncIterator[AsyncGenerator[Iterable, Iterator]]],
     f: Generator[Reversible],
-    g: Union[Callable, Set],
-    h: Union[MutableSet[Mapping, MutableMapping], Sequence],
+    g: typing.Union[Callable, Set],
+    h: typing.Union[MutableSet[Mapping, MutableMapping], Sequence],
     i: MutableSequence[Container[Collection]],
     j: ByteString,
     k: MappingView[KeysView[ItemsView[ValuesView]]],
     l: AbstractContextManager,
-    m: Optional[AbstractAsyncContextManager],
+    m: typing.Optional[AbstractAsyncContextManager],
 ) -> Union[Pattern, Match]:
     return re.compile(f'{a},{b},{c},{d},{e},{f},{g},{h},{i},{j},{k},{l},{m}')

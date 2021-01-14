@@ -3,26 +3,7 @@ from __future__ import annotations
 import ast
 from typing import Union
 
-
-def flatten_to_generator(_list: list):
-    for item in _list:
-        if isinstance(item, list):
-            yield from item
-        else:
-            yield item
-
-
-def flatten_list(_list: list) -> list:
-    """
-    Takes a list with possible nested lists and flattens the structure.
-    """
-    while True:
-        for item in _list:
-            if isinstance(item, list):
-                _list = list(flatten_to_generator(_list))
-                break
-        else:
-            return _list
+from .utils import flatten_list
 
 
 def get_ast_objects(node: ast.Module) -> list[ast.AST]:
@@ -98,11 +79,29 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
     raise Exception(f'Something went wrong: {node.__dict__}')
 
 
-def find_annotations_in_file(file: str) -> list[dict[str, str]]:
+def map_imports(tree: ast.Module):
+    """
+    This function looks for typing imports; nothing else.
+    Since we're only interested in that object, one dict seems
+    like it should be enough to represent all the information we need.
+    """
+    imports = {'lineno': None, 'end_lineno': None, 'names': set()}
+    for item in tree.body:
+        if isinstance(item, (ast.Import, ast.ImportFrom)):
+            imports['lineno'] = item.lineno
+            imports['end_lineno'] = item.end_lineno
+            for name in item.names:
+                imports['names'].add(name.name)
+    return imports
+
+
+def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]], dict]:
     with open(file, 'rb') as file:
         content = file.read()
 
-    objects = get_ast_objects(ast.parse(content))
+    tree = ast.parse(content)
+    imports = map_imports(tree)
+    objects = get_ast_objects(tree)
 
     annotation_list: list[dict[str, str]] = []
     for obj in objects:
@@ -113,4 +112,4 @@ def find_annotations_in_file(file: str) -> list[dict[str, str]]:
             else:
                 annotation_list.append(result)
 
-    return annotation_list
+    return annotation_list, imports

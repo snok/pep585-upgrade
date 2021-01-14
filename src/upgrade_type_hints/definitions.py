@@ -10,7 +10,7 @@ native_types: dict[str, str] = {
 
 # These replacement require use to add an import,
 # but are otherwise pretty straight forward
-imported_unique_types = {
+imported_types = {
     'Deque': {'from': 'collections', 'name': 'deque'},
     'DefaultDict': {'from': 'collections', 'name': 'defaultdict'},
     'AbstractSet': {'from': 'collections.abc', 'name': 'Set'},
@@ -18,10 +18,6 @@ imported_unique_types = {
     'AsyncContextManager': {'from': 'contextlib', 'name': 'AbstractAsyncContextManager'},
     're.Pattern': {'from': 're', 'name': 'Pattern'},
     're.Match': {'from': 're', 'name': 'Match'},
-}
-
-# These types are identical before and after. All we need to do is change the import.
-imported_types: dict[str, dict[str, str]] = {
     'OrderedDict': {'from': 'collections', 'name': 'OrderedDict'},
     'Counter': {'from': 'collections', 'name': 'Counter'},
     'ChainMap': {'from': 'collections', 'name': 'ChainMap'},
@@ -52,7 +48,7 @@ imported_types: dict[str, dict[str, str]] = {
 }
 
 
-def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple[list, list, list]:
+def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple[list, list]:
     """
     Checks whether the complete list of annotations contained in a file
     matches any of the type we want to substitute.
@@ -61,19 +57,15 @@ def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple
         substituted with.
     """
     filtered_native_type_list = []
-    filtered_unique_import_list = []
     filtered_import_list = []
 
     for item in annotations:
-        if item['annotation'].replace('typing.', '') in native_types:
-            item['new_annotation'] = native_types[item['annotation']]
+        stripped_annotation = item['annotation'].replace('typing.', '')
+        if stripped_annotation in native_types:
+            item['new_annotation'] = native_types[stripped_annotation]
             filtered_native_type_list.append(item)
-        elif item['annotation'].replace('typing.', '') in imported_unique_types:
-            item['new_annotation'] = imported_unique_types[item['annotation']]['name']
-            item['import_from'] = imported_unique_types[item['annotation']]['from']
-            filtered_unique_import_list.append(item)
-        elif item['annotation'].replace('typing.', '') in imported_types:
-            item['new_annotation'] = imported_types[item['annotation']]['name']
-            item['import_from'] = imported_types[item['annotation']]['from']
+        elif stripped_annotation in imported_types:
+            item['new_annotation'] = imported_types[stripped_annotation]['name']
+            item['import_from'] = imported_types[stripped_annotation]['from']
             filtered_import_list.append(item)
-    return filtered_native_type_list, filtered_unique_import_list, filtered_import_list
+    return filtered_native_type_list, filtered_import_list

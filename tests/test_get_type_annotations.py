@@ -1,11 +1,7 @@
 import ast
-import os
-import subprocess
 import textwrap
 
-from src.upgrade_type_hints.checker import flatten_list, get_annotations, \
-    get_ast_objects
-from tests import file_path
+from src.upgrade_type_hints.checker import flatten_list, get_annotations, get_ast_objects
 
 
 class TestAst:
@@ -116,4 +112,3 @@ class TestAst:
         assert just_annotations.count('list') == 1
         assert just_annotations.count('str') == 1
         assert just_annotations.count('int') == 1
-

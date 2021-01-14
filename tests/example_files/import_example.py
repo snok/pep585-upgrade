@@ -1,3 +1,1 @@
-from typing import List
-
-x: List
+from typing import List, Tuple

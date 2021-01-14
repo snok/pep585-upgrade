@@ -1,9 +1,9 @@
-from src.upgrade_type_hints.checker import find_annotations_in_file
+from src.upgrade_type_hints.checker import find_annotations_and_imports_in_file
 from tests import file_path
 
 
 def test_find_type_annotations_in_file():
-    annotations = find_annotations_in_file(file_path / 'example_files/function_definition.py')
+    annotations, _ = find_annotations_and_imports_in_file(file_path / 'example_files/function_definition.py')
     just_annotations = [i['annotation'] for i in annotations]
     assert just_annotations.count('Tuple') == 1
     assert just_annotations.count('List') == 1
