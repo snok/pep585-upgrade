@@ -1,3 +1,5 @@
+> Work in progress
+
 # PEP585 Upgrade
 
 This is a [pre-commit](https://pre-commit.com/) hook configured to automatically upgrade your type hints
@@ -117,4 +119,4 @@ However, installing pre-commit and configuring the hook to run will take you les
 
 ### Supporting the project
 
-Contributions are of course always welcome, and please leave a ✭ if this project helped you 👏
+Please leave a ✭ if this project helped you 👏 and contributions are always welcome!

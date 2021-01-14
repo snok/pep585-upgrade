@@ -25,7 +25,9 @@ def flatten_list(_list: list) -> list:
     Flattens a list of nested lists.
     """
     while True:
-        for item in _list:
+        for index, item in enumerate(_list):
+            if not item:
+                _list.pop(index)
             if isinstance(item, list):
                 _list = list(flatten_to_generator(_list))
                 break

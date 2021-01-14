@@ -49,7 +49,7 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
         if sublist:
             return flatten_list([i for i in sublist if i is not None])
 
-    elif isinstance(node, ast.Tuple):
+    elif isinstance(node, (ast.Tuple, ast.List)):
         return [get_annotations(x) for x in node.elts]
 
     elif isinstance(node, ast.Name):
@@ -75,13 +75,23 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
         # but it is important that we save a typing.Dict annotation
         # in a way where we can substitute the annotation later.
         # See the test_ast_attribute test for insight on how this works.
-        return format_dict(f'{node.value.id}.{node.attr}', node)
+        try:
+            return format_dict(f'{node.value.id}.{node.attr}', node)
+        except Exception:
+            # Types like pd.core.frame.DataFrame will throw AttributeErrors
+            # but these are outside the scope of what we're after
+            return {}
 
-    elif node is None or isinstance(node, ast.Constant) and node.value is None:
+    elif node is None or isinstance(node, ast.Constant):
         # We don't care about these
         return {}
 
-    print('Something went wrong. Please report an issue to https://github.com/sondrelg/pep585-upgrade/issues')
+    print(f'Unhandled node type: {type(node)}')
+    try:
+        print(node.__dict__)
+    except:
+        pass
+    # print('Something went wrong. Please report an issue to https://github.com/sondrelg/pep585-upgrade/issues')
 
 
 def map_imports(tree: ast.Module):
