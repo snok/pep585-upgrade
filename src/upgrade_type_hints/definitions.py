@@ -50,11 +50,11 @@ imported_types = {
 
 def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple[list, list]:
     """
-    Checks whether the complete list of annotations contained in a file
-    matches any of the type we want to substitute.
-    :return: We return a filtered list of dictionaries,
-        where the dict has an extra attribute to indicate what it should be
-        substituted with.
+    Checks whether the complete list of annotations contained in a file matches any of the pep-585-types
+    we want to substitute.
+
+    :return: We return a filtered list of dictionaries, where the dict has an
+             extra attribute to indicate what it should be substituted with.
     """
     filtered_native_type_list = []
     filtered_import_list = []

@@ -1,7 +1,5 @@
-from typing import List
-
-x: List
+x: list
 
 
-def b(*, x: List[str]):
+def b(*, x: list[str]):
     pass

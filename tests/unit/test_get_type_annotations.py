@@ -45,7 +45,7 @@ class TestAst:
         assert annotations[0]['annotation'] == 'dict'
         assert annotations[1]['annotation'] == 'int'
         assert annotations[2]['annotation'] == 'str'
-        assert annotations[3] == {}  # for None constants we return an empty dict
+        assert len(annotations) == 3
 
     def test_get_complex_variable_annotation(self):
         example_code = 'a: Dict[Dict[Pattern, MutableSet], Tuple[Optional[str], Sequence]] = {}'
@@ -127,23 +127,25 @@ class TestAst:
         objects = get_ast_objects(tree)
         annotations = flatten_list([get_annotations(obj) for obj in objects])
         just_annotations = [i['annotation'] for i in annotations]
-        assert just_annotations == ['Tuple', 'float', 'float', 'float']
+        assert just_annotations == []
 
     def test_star_import(self):
-        example_code = textwrap.dedent('''
+        example_code = textwrap.dedent(
+            '''
             from typing import List
-            
+
             x: List
-            
-            
+
+
             def b(*, x: List[str]):
                 pass
-        ''')
+        '''
+        )
         tree = ast.parse(example_code)
         objects = get_ast_objects(tree)
         annotations = flatten_list([get_annotations(obj) for obj in objects])
         assert annotations == [
-            {'annotation': 'List', 'line_number': 4, 'end_line_number': 4, 'column_offset': 3, 'end_column_offset': 7},
-            {'annotation': 'str', 'line_number': 7, 'end_line_number': 7, 'column_offset': 17, 'end_column_offset': 20},
-            {'annotation': 'List', 'line_number': 7, 'end_line_number': 7, 'column_offset': 12, 'end_column_offset': 16}
+            {'annotation': 'List', 'line_number': 4},
+            {'annotation': 'str', 'line_number': 7},
+            {'annotation': 'List', 'line_number': 7},
         ]
