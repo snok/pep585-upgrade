@@ -1,34 +1,41 @@
+from re import Match
+from collections.abc import Generator
+from collections.abc import AsyncIterable
+from collections.abc import MappingView
+from collections.abc import Awaitable
+from collections.abc import Callable
+from collections.abc import MutableSet
+from contextlib import AbstractAsyncContextManager
+from collections.abc import Iterator
+from collections.abc import AsyncGenerator
+from collections.abc import Mapping
+from re import Pattern
+from collections.abc import Iterable
+from collections.abc import ItemsView
+from collections.abc import ValuesView
+from collections.abc import MutableMapping
+from collections.abc import Collection
+from collections.abc import KeysView
+from collections.abc import Coroutine
+from collections.abc import Container
+from collections.abc import MutableSequence
+from collections.abc import ByteString
+from collections import ChainMap
+from collections.abc import Sequence
+from collections import deque
+from collections.abc import Reversible
+from collections.abc import Set
+from collections.abc import AsyncIterator
+from collections import Counter
+from collections import OrderedDict
+from collections import defaultdict
+from contextlib import AbstractContextManager
+
 import re
 import typing
-from collections import ChainMap, Counter, OrderedDict, defaultdict, deque
-from collections.abc import (
-    AsyncGenerator,
-    AsyncIterable,
-    AsyncIterator,
-    Awaitable,
-    ByteString,
-    Callable,
-    Collection,
-    Container,
-    Coroutine,
-    Generator,
-    ItemsView,
-    Iterable,
-    Iterator,
-    KeysView,
-    Mapping,
-    MappingView,
-    MutableMapping,
-    MutableSequence,
-    MutableSet,
-    Reversible,
-    Sequence,
-    Set,
-    ValuesView,
+from typing import (
+    Union,
 )
-from contextlib import AbstractAsyncContextManager, AbstractContextManager
-from re import Match, Pattern
-from typing import Union
 
 
 def very_complex_function(

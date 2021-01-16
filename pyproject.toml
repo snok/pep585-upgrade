@@ -33,3 +33,4 @@ exclude = '(/(\.venv)/)'
 profile = "black"
 combine_as_imports = true
 line_length = 110
+skip = ["tests"]

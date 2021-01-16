@@ -75,5 +75,14 @@ def test_format_function_definition():
     with open(example_file, 'rb') as f:
         expected = sorted(f.readlines())
 
+    result = [i for i in result if i.replace(b'\n', b'')]
+    expected = [i for i in expected if i.replace(b'\n', b'')]
+
+    for i in result:
+        print(i)
+    print('--')
+    for i in expected:
+        print(i)
+
     for a, b in zip(result, expected):
         assert a == b
