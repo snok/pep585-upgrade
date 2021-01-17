@@ -31,7 +31,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         annotation_list, imports = find_annotations_and_imports_in_file(filename)
 
         # Get all *relevant* type annotations (annotations we want to substitute)
-        native_types, imported_types = check_if_types_need_substitution(annotation_list)
+        native_types, imported_types = check_if_types_need_substitution(annotation_list, imports)
 
         # Create a map of which imports to delete, wrt. substitutions
         imports_to_delete = get_imports_to_delete([native_types, imported_types], imports)

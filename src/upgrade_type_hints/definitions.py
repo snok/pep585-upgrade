@@ -48,7 +48,9 @@ imported_types = {
 }
 
 
-def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple[list, list]:
+def check_if_types_need_substitution(
+    annotations: list[dict[str, str]], imports: list[dict]
+) -> tuple[list, list]:
     """
     Checks whether the complete list of annotations contained in a file matches any of the pep-585-types
     we want to substitute.
@@ -62,10 +64,16 @@ def check_if_types_need_substitution(annotations: list[dict[str, str]]) -> tuple
     for item in annotations:
         stripped_annotation = item['annotation'].replace('typing.', '')
         if stripped_annotation in native_types:
-            item['new_annotation'] = native_types[stripped_annotation]
-            filtered_native_type_list.append(item)
+            for _import in imports:
+                if stripped_annotation in _import['names']:
+                    item['new_annotation'] = native_types[stripped_annotation]
+                    filtered_native_type_list.append(item)
+                    break
         elif stripped_annotation in imported_types:
-            item['new_annotation'] = imported_types[stripped_annotation]['name']
-            item['import_from'] = imported_types[stripped_annotation]['from']
-            filtered_import_list.append(item)
+            for _import in imports:
+                if stripped_annotation in _import['names']:
+                    item['new_annotation'] = imported_types[stripped_annotation]['name']
+                    item['import_from'] = imported_types[stripped_annotation]['from']
+                    filtered_import_list.append(item)
+                    break
     return filtered_native_type_list, filtered_import_list
