@@ -1,9 +1,11 @@
 name: coverage
 
-on: push
-#  push:
-#    branches:
-#      - master
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
 
 jobs:
   codecov:
@@ -32,7 +34,7 @@ jobs:
       run: poetry install
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
     - name: Test with pytest
-      run: poetry run pytest --cov=src/upgrade_type_hints --verbose  --assert=plain --cov-report=xml
+      run: poetry run pytest --cov=src/upgrade_type_hints --cov-report=xml
     - name: Upload coverage
       uses: codecov/codecov-action@v1
       with:

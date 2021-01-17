@@ -23,7 +23,7 @@ def get_ast_objects(node: ast.Module) -> list[ast.AST]:
     return items
 
 
-def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:
+def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
     """
     Return all annotations contained in the received ast object.
     """
