@@ -10,27 +10,30 @@ def test_map_imports():
     code_example = 'from typing import List'
     tree = ast.parse(code_example)
     imports = map_imports(tree)
-    assert imports == {'lineno': 1, 'end_lineno': 1, 'names': {'List'}}
+    assert imports == [{'lineno': 1, 'end_lineno': 1, 'names': {'List'}}]
 
     code_example = 'from typing import List, Dict'
     tree = ast.parse(code_example)
     imports = map_imports(tree)
-    assert imports == {'lineno': 1, 'end_lineno': 1, 'names': {'List', 'Dict'}}
+    assert imports == [{'lineno': 1, 'end_lineno': 1, 'names': {'List', 'Dict'}}]
 
     code_example = 'from typing import (\n\tList,\n\tDict\n\t)'
     tree = ast.parse(code_example)
     imports = map_imports(tree)
-    assert imports == {'lineno': 1, 'end_lineno': 4, 'names': {'List', 'Dict'}}
+    assert imports == [{'lineno': 1, 'end_lineno': 4, 'names': {'List', 'Dict'}}]
 
     code_example = 'from \\\n\ttyping import (\n\tList,\n\tDict\n\t); from typing\\\n\t import Set'
     tree = ast.parse(code_example)
     imports = map_imports(tree)
-    assert imports == {'end_lineno': 6, 'lineno': 5, 'names': {'List', 'Set', 'Dict'}}
+    assert imports == [
+        {'end_lineno': 5, 'lineno': 1, 'names': {'Dict', 'List'}},
+        {'end_lineno': 6, 'lineno': 5, 'names': {'Set'}},
+    ]
 
     code_example = 'from \\\n\ttyping import (\n\tList,\n\tDict\n\t); from x\\\n\t import Set'
     tree = ast.parse(code_example)
     imports = map_imports(tree)
-    assert imports == {'end_lineno': 5, 'lineno': 1, 'names': {'Dict', 'List'}}
+    assert imports == [{'end_lineno': 5, 'lineno': 1, 'names': {'Dict', 'List'}}]
 
 
 def test_map_non_typing_imports():
@@ -40,4 +43,4 @@ def test_map_non_typing_imports():
     code_example = 'from x import List'
     tree = ast.parse(code_example)
     imports = map_imports(tree)
-    assert imports == {'lineno': None, 'end_lineno': None, 'names': set()}
+    assert imports == []

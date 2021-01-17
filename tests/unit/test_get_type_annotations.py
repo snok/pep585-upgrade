@@ -129,7 +129,7 @@ class TestAst:
         just_annotations = [i['annotation'] for i in annotations]
         assert just_annotations == []
 
-    def test_star_import(self):
+    def test_star_arg(self):
         example_code = textwrap.dedent(
             '''
             from typing import List
@@ -149,3 +149,23 @@ class TestAst:
             {'annotation': 'str', 'line_number': 7},
             {'annotation': 'List', 'line_number': 7},
         ]
+
+    def test_deep_attribute(self):
+        """
+        An ast.Attribute with more than 2 levels should return an empty dict.
+        """
+        example_code = textwrap.dedent(
+            '''
+            import pandas as pd
+
+            def b(x: pd.core.frame.DataFrame):
+                pass
+        '''
+        )
+        tree = ast.parse(example_code)
+        objects = get_ast_objects(tree)
+        annotations = get_annotations(objects[0])
+        assert annotations == {}
+
+    def test_bad_ast_type(self):
+        assert get_annotations('test') is None

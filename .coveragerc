@@ -4,3 +4,5 @@ source = src/upgrade_type_hints
 [report]
 ignore_errors = True
 show_missing = True
+omit =
+    src/upgrade_type_hints/__main__.py

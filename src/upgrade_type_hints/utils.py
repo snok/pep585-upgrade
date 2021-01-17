@@ -44,15 +44,16 @@ def get_imports_to_delete(new_imports: list[list], imports: dict) -> list[dict]:
     """
     operations = []
     for _list in new_imports:
-        for item in _list:
-            if item['annotation'] in imports['names']:
-                operations.append(
-                    {
-                        'annotation': item['annotation'],
-                        'line_start': imports['lineno'],
-                        'line_stop': imports['end_lineno'],
-                    }
-                )
-                imports['names'].remove(item['annotation'])
-                continue
+        for index, _import in enumerate(imports):
+            for item in _list:
+                if item['annotation'] in _import['names']:
+                    operations.append(
+                        {
+                            'annotation': item['annotation'],
+                            'line_start': _import['lineno'],
+                            'line_stop': _import['end_lineno'],
+                        }
+                    )
+                    imports[index]['names'].remove(item['annotation'])
+                    continue
     return operations

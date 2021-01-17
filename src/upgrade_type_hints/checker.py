@@ -91,21 +91,24 @@ def map_imports(tree: ast.Module):
     """
     This function finds all typing imports.
     """
-    imports = {'lineno': None, 'end_lineno': None, 'names': set()}
+    imports = {}
     for item in tree.body:
         if isinstance(item, (ast.Import, ast.ImportFrom)):
             if isinstance(item, ast.ImportFrom) and item.module != 'typing':
                 continue
-            elif isinstance(item, ast.Import) and all(i.name != 'typing' for i in item.names):
+            elif isinstance(item, ast.Import) and not any(i.name != 'typing' for i in item.names):
                 continue
-            imports['lineno'] = item.lineno
-            imports['end_lineno'] = item.end_lineno
+            if item.lineno not in imports:
+                imports[item.lineno] = {'lineno': None, 'end_lineno': None, 'names': set()}
+            imports[item.lineno]['lineno'] = item.lineno
+            imports[item.lineno]['end_lineno'] = item.end_lineno
             for name in item.names:
-                imports['names'].add(name.name)
-    return imports
+                imports[item.lineno]['names'].add(name.name)
+
+    return list(imports.values())
 
 
-def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]], dict]:
+def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]], list[dict]]:
     """
     Returns a complete map of typing imports and annotations in a given file.
     """
