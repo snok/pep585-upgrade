@@ -50,3 +50,8 @@ jobs:
           source .venv/bin/activate
           poetry run pytest --cov=src
           poetry run coverage report
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
