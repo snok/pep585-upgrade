@@ -6,8 +6,8 @@ from typing import Optional
 
 from .checker import find_annotations_and_imports_in_file
 from .definitions import check_if_types_need_substitution
-from .update import fix_file, map_imports_to_delete
-from .utils import str_to_bool
+from .update import update_file
+from .utils import get_imports_to_delete, str_to_bool
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -20,21 +20,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         nargs='?',
         const=True,
         help='Whether to add `from __future__ import annotations` '
-        'to the top of a file, Should be true if adding this '
-        'to a project running Python < 3.9',
+        'to the top of a file, Set to true if using this in a project running Python < 3.9',
     )
     args = parser.parse_args(argv)
 
     return_value = 0
 
     for filename in args.filenames:
-
+        # Fetch all typing imports and type annotations
         annotation_list, imports = find_annotations_and_imports_in_file(filename)
+
+        # Get all *relevant* type annotations (annotations we want to substitute)
         native_types, imported_types = check_if_types_need_substitution(annotation_list)
-        imports_to_delete = map_imports_to_delete([native_types, imported_types], imports)
+
+        # Create a map of which imports to delete, wrt. substitutions
+        imports_to_delete = get_imports_to_delete([native_types, imported_types], imports)
+
         if native_types or imported_types and imports_to_delete:
             print(f'Fixing {filename}')
-            fix_file(filename, args.futures, native_types, imported_types, imports_to_delete)
+            update_file(filename, args.futures, native_types, imported_types, imports_to_delete)
             return_value = 1
 
     return exit(return_value)

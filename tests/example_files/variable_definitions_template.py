@@ -1,7 +1,6 @@
 import typing
+from typing import ChainMap, Counter
 from typing import (
-    ChainMap,
-    Counter,
     DefaultDict,
     Deque,
     Dict,

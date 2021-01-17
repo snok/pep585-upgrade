@@ -1,12 +1,8 @@
 [run]
-source = src
+source = src/upgrade_type_hints
 
 [report]
 ignore_errors = True
-omit =
-    */tests/*
-    */.venv/*,
-    */python3*
-
 show_missing = True
-skip_covered = True
+omit =
+    src/upgrade_type_hints/__main__.py

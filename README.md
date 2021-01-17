@@ -1,3 +1,8 @@
+[![code coverage](https://codecov.io/gh/sondrelg/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/sondrelg/pep585-upgrade)
+[![supported python versions](https://img.shields.io/badge/python-3.7%2B-blue)]()
+[![checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
 # PEP585 Upgrade
 
 This is a [pre-commit](https://pre-commit.com/) hook configured to automatically upgrade your type hints

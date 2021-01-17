@@ -16,6 +16,7 @@ pre-commit = "^2.9.3"
 pytest = "^6.2.1"
 ipython = "^7.19.0"
 coverage = "^5.3.1"
+pytest-cov = "^2.10.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -33,3 +34,4 @@ exclude = '(/(\.venv)/)'
 profile = "black"
 combine_as_imports = true
 line_length = 110
+skip = ["tests"]
