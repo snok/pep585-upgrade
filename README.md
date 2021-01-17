@@ -1,5 +1,5 @@
-[![code coverage](https://codecov.io/gh/sondrelg/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/sondrelg/pep585-upgrade)
 [![supported python versions](https://img.shields.io/badge/python-3.7%2B-blue)]()
+[![code coverage](https://codecov.io/gh/sondrelg/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/sondrelg/pep585-upgrade)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 # PEP585 Upgrade
@@ -7,15 +7,15 @@
 This is a [pre-commit](https://pre-commit.com/) hook configured to automatically upgrade your type hints
 to the new native types implemented in [PEP 585](https://www.python.org/dev/peps/pep-0585/).
 
-They are available with any Python version above `3.7`, but if you're below `3.9` you will need to run it with `futures-imports=true`.
+This will work for any Python version above `3.7`, though if you're not using `3.9` you will need to run the hook with `futures-imports=true`.
 
-A complete list of the newly introduced types are shown below.
+A complete type list is shown below.
 <details>
-<summary><b>See the complete list of new types</b></summary>
+<summary><b>See the complete list</b></summary>
 
 <br>
 
-| Used to be     	            | Was upgraded to  	                                |
+| Used to be     	            | Will be upgraded to  	                                |
 |---------------------------    |-------------------------------------------    |
 | typing.Tuple     	            |  tuple     	                                |
 | typing.List      	            |  list      	                                |
@@ -58,7 +58,7 @@ A complete list of the newly introduced types are shown below.
 
 </details>
 
-### Show me
+### I'm a visual learner
 
 In a nutshell, this code
 
@@ -83,15 +83,15 @@ def do_thing(x: list[tuple[str, ...]], y: dict[str, set[str]]) -> frozenset:
 ```
 
 ### Features:
-- [x] Perform in-line substitution for new types
-- [x] Add required imports for non-builtin types, when they are replaced in
-- [x] Add `__futures__` imports if enabled
-- [x] Remove the (now unused) typing imports
-- [ ] ~~More complex import handling, sorting, and removal~~
+- [x] Performs in-line substitution for new types
+- [x] Adds new imports for upgrade types which need them
+- [x] Adds `__futures__` imports if the futures flag is enabled
+- [x] Removes no longer needed typing imports
 
-As a small aside; since thorough import handling isn't in the scope of this package,
-we would recommend running this in tandem with a hook like `isort` to aggregate
-and sort your imports. Otherwise you risk needing to do *some* manual cleanup
+Note: even though we remove and add imports *reasonably* well, I would
+recommend running this in tandem hook like `isort` to aggregate
+and sort your imports, and flake8 to discover any unused imports neither were able to remove.
+Otherwise you risk needing to do *some* manual cleanup
 from time to time (though it should be pretty rare).
 
 ### Config
@@ -108,7 +108,7 @@ To use this with [pre-commit](https://pre-commit.com/), simply add this to your 
 
 For more information about available arguments, see the [function definitions](https://github.com/sondrelg/pep585-upgrade/blob/master/src/upgrade_type_hints/update.py#L95).
 
-### Running this once
+### Running this once on my codebase
 
 If you wish to run this once on your codebase, that's not easy to do *without* pre-commit, as it piggybacks on that process quite a bit.
 
@@ -118,6 +118,12 @@ However, installing pre-commit and configuring the hook to run will take you les
 - Run `touch pre-commit-config.yaml`
 - Copy the configuration shown above into the file
 - Run `pre-commit run --all-files`
+
+### Running this once on a single file
+
+To run the upgrade on a single file, you can clone the repo
+and run `python -m upgrade_type_hints <filename>` from the src folder, or
+something equivalent.
 
 ### Known imperfections
 
@@ -130,9 +136,20 @@ However, installing pre-commit and configuring the hook to run will take you les
     ```
 
     but extending this example to a thousand-line file, the way we've structured the logic, there is no way to know whether there is a valid `typing.Optional` somewhere in the file.
-- Custom type declarations are not a part of the ast objects we look at, so it's technically
-  possible for the hook to remove a `typing` import (that should be removed according to the type replacements otherwise made in the file)
-  where the same import is used to declare a custom type.
+- We might remove typing imports in a file where you needed them for more than just type annotations.
+  An example of this is custom type declarations:
+
+    ```python
+    from typing import List
+
+    x: List  # this will be upgraded and the import will be removed
+    y = List[str]  # this will be left without its required import
+    ```
+
+  The reason for this is that custom type declarations are not a part
+  of the `ast` objects we look at.
+
+Both points are resolved by running flake8.
 
 ### Supporting the project
 
