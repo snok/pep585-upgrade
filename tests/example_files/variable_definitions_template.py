@@ -1,5 +1,5 @@
 import typing
-from typing import ChainMap, Counter
+from typing import ChainMap, Counter, Optional
 from typing import (
     DefaultDict,
     Deque,
@@ -20,7 +20,7 @@ x: bool
 x: str
 x: bytes
 x: List
-x: typing.List
+x: Optional[typing.List]
 x: Set
 x: typing.Set
 x: Dict

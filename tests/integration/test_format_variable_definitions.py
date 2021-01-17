@@ -52,16 +52,9 @@ x: ChainMap
 '''
 
 expectd = '''
-from collections import ChainMap
-from collections import OrderedDict
-from collections.abc import Mapping
-from collections import Counter
-from collections import defaultdict
-from collections.abc import Iterable
-from collections import deque
 import typing
-from typing import (
-)
+from collections import ChainMap, Counter, OrderedDict, defaultdict, deque
+from collections.abc import Iterable, Mapping
 
 x: int
 x: float
@@ -108,6 +101,7 @@ def test_format_variables():
 
     # Execute the pre-commit hook as a CLI
     os.system(f'poetry run upgrade-type-hints-script {result_path}')
+    os.system(f'isort {result_path}')
 
     # Load the changed file
     with open(result_path, 'rb') as f:
@@ -135,6 +129,7 @@ def test_format_variables_with_futures():
 
     # Execute the pre-commit hook as a CLI
     os.system(f'poetry run upgrade-type-hints-script {result_path} --futures')
+    os.system(f'isort {result_path}')
 
     # Load the changed file
     with open(result_path, 'rb') as f:

@@ -15,6 +15,52 @@ def replace_type(old_annotation: str, new_annotation: str, line) -> tuple[bytes,
     return line
 
 
+def remove_import(operation, content):
+    counter = 0
+
+    for line in content[operation['line_start'] - 1 : operation['line_stop']]:
+        # Check if this is the line the import is on
+        if re.findall(f'[^a-zA-Z]{operation["annotation"]}(?:[^a-zA-Z]|$)'.encode(encoding='utf-8'), line):
+            if operation['line_start'] == operation['line_stop']:
+                # Handle same line imports here
+                if b',' in line:
+                    # example: from x import y, z
+                    name = operation['annotation'].encode(encoding='utf-8')
+                    match = re.search(
+                        b'([^a-zA-Z]' + name + br'\s?,)|'  # `List,  `
+                        br'(,\s?' + name + br'\s?)|'  # `, List`
+                        br'(\s?' + name + br'\s?$)',
+                        line,
+                    )
+                    if match:
+                        groups = [i for i in match.groups() if i]
+                        line = line.replace(groups[0].replace(b'\n', b''), b'')
+                    content[operation['line_start'] - 1] = line
+                    break
+                else:
+                    # example: from x import y
+                    # here we just remove the entire line from the file
+                    del content[operation['line_start'] - 1]
+                break
+
+            # Handle multi-line imports
+            content = (
+                content[: operation['line_start'] - 1 + counter]
+                + content[operation['line_start'] + counter :]
+            )
+            break
+
+        counter += 1
+    else:
+        # The else block is triggered after the for-loop if it never hits a `break`
+        print(
+            f'Not able to find annotation {operation["annotation"]} in file. '
+            'Please report an issue to '
+            'https://github.com/sondrelg/pep585-upgrade/issues'
+        )
+    return content
+
+
 def update_file(
     filename: str, futures: bool, native_types: list, imported_types: list, imports_to_delete: list
 ) -> None:
@@ -48,48 +94,7 @@ def update_file(
 
     # Remove old imports
     for operation in imports_to_delete:
-        counter = 0
-        for line in content[operation['line_start'] - 1 : operation['line_stop']]:
-            # Check if this is the line the import is on
-            if re.findall(
-                f'[^a-zA-Z]{operation["annotation"]}(?:[^a-zA-Z]|$)'.encode(encoding='utf-8'), line
-            ):
-                if operation['line_start'] == operation['line_stop']:
-                    # Handle same line imports here
-                    if b',' in line:
-                        # example: from x import y, z
-                        name = operation['annotation'].encode(encoding='utf-8')
-                        match = re.search(
-                            b'(' + name + br'\s?,\s?)|(,\s?' + name + br'\s?)|(\s?' + name + br'\s?$)', line
-                        )
-                        if match:
-                            groups = [i for i in match.groups() if i]
-                            line = line.replace(groups[0].replace(b'\n', b''), b'')
-                        else:
-                            line.replace(operation['annotation'].encode(encoding='utf-8'), b'')
-                        content[operation['line_start'] - 1] = line
-                        break
-                    else:
-                        # example: from x import y
-                        # here we just remove the entire line from the file
-                        del content[operation['line_start'] - 1]
-                    break
-
-                # Handle multi-line imports
-                content = (
-                    content[: operation['line_start'] - 1 + counter]
-                    + content[operation['line_start'] + counter :]
-                )
-                break
-
-            counter += 1
-        else:
-            # The else block is triggered after the for-loop if it never hits a `break`
-            print(
-                f'Not able to find annotation {operation["annotation"]} in file. '
-                'Please report an issue to '
-                'https://github.com/sondrelg/pep585-upgrade/issues'
-            )
+        content = remove_import(operation, content)
 
     content = new_import_statements + content
     with open(filename, 'wb') as file:
