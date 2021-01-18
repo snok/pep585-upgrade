@@ -89,7 +89,7 @@ def do_thing(x: list[tuple[str, ...]], y: dict[str, set[str]]) -> frozenset:
 - [x] Removes no longer needed typing imports
 
 Note: even though we remove and add imports *reasonably* well, I would
-recommend running this in tandem hook like `isort` to aggregate
+recommend running this in tandem with hooks like `isort` to aggregate
 and sort your imports, and flake8 to discover any unused imports neither were able to remove.
 Otherwise you risk needing to do *some* manual cleanup
 from time to time (though it should be pretty rare).
