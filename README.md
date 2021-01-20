@@ -1,5 +1,5 @@
 [![supported python versions](https://img.shields.io/badge/python-3.7%2B-blue)]()
-[![code coverage](https://codecov.io/gh/sondrelg/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/sondrelg/pep585-upgrade)
+[![code coverage](https://codecov.io/gh/snok/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/snok/pep585-upgrade)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 # PEP585 Upgrade
