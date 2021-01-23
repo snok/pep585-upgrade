@@ -55,6 +55,9 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
             # example: typing.List
             return get_annotations(annotation_node)
 
+        elif isinstance(annotation_node, (ast.Tuple, ast.List)):
+            return [get_annotations(x) for x in annotation_node.elts]
+
         sublist = []
         if hasattr(annotation_node, 'slice'):
             sublist.append(get_annotations(annotation_node.slice))
