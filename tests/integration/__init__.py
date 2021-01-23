@@ -5,7 +5,7 @@ result_path = 'result.py'
 expected_path = 'expected.py'
 
 
-def int_test(function_definition, expected, futures=False):
+def int_test(function_definition, expected, futures=False, expect_futures=True):
     with open(result_path, 'w+') as file:
         file.write(function_definition)
     with open(expected_path, 'w+') as file:
@@ -21,7 +21,9 @@ def int_test(function_definition, expected, futures=False):
         result = f.readlines()
 
     with open(expected_path, 'rb') as f:
-        expected = f.readlines() + [b'from __future__ import annotations\n'] if futures else []
+        expected = (
+            f.readlines() + [b'from __future__ import annotations\n'] if futures and expect_futures else []
+        )
 
     result = sorted(i for i in result if i.replace(b'\n', b''))
     expected = sorted(i for i in expected if i.replace(b'\n', b''))

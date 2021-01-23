@@ -30,7 +30,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     for filename in args.filenames:
         # Fetch all typing imports and type annotations
-        annotation_list, imports = find_annotations_and_imports_in_file(filename)
+        annotation_list, imports, futures_import_found = find_annotations_and_imports_in_file(filename)
 
         # Get all *relevant* type annotations (annotations we want to substitute)
         native_types, imported_types = check_if_types_need_substitution(annotation_list, imports)
@@ -41,11 +41,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if native_types or imported_types and imports_to_delete:
             print(f'Fixing {filename}')
             update_file(
-                filename,
+                filename=filename,
                 futures=futures,
                 native_types=native_types,
                 imported_types=imported_types,
                 imports_to_delete=imports_to_delete,
+                futures_import_found=futures_import_found,
             )
             return_value = 1
 

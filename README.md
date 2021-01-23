@@ -1,5 +1,5 @@
 [![supported python versions](https://img.shields.io/badge/python-3.7%2B-blue)]()
-[![code coverage](https://codecov.io/gh/sondrelg/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/sondrelg/pep585-upgrade)
+[![code coverage](https://codecov.io/gh/snok/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/snok/pep585-upgrade)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 # PEP585 Upgrade
@@ -89,7 +89,7 @@ def do_thing(x: list[tuple[str, ...]], y: dict[str, set[str]]) -> frozenset:
 - [x] Removes no longer needed typing imports
 
 Note: even though we remove and add imports *reasonably* well, I would
-recommend running this in tandem hook like `isort` to aggregate
+recommend running this in tandem with hooks like `isort` to aggregate
 and sort your imports, and flake8 to discover any unused imports neither were able to remove.
 Otherwise you risk needing to do *some* manual cleanup
 from time to time (though it should be pretty rare).
