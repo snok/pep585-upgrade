@@ -1,8 +1,5 @@
-from rest_framework.serializers import Serializer
-
-x: [str, Serializer]
-y: (str, str, ...)
+y: (str, ...)
 
 
-def test(a: [([str], Serializer)], b: str = '') -> [str]:
-    pass
+def test(a: ([],)):
+    print(a)

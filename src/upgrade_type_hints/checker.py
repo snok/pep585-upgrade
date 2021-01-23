@@ -43,7 +43,7 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
             return flatten_list(sublist)
 
     elif isinstance(node, (ast.Tuple, ast.List)):
-        return [get_annotations(x) for x in node.elts]
+        return flatten_list([get_annotations(x) for x in node.elts])
 
     elif isinstance(node, ast.Name):
         return {'annotation': node.id, 'line_number': node.lineno}
@@ -56,7 +56,7 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
             return get_annotations(annotation_node)
 
         elif isinstance(annotation_node, (ast.Tuple, ast.List)):
-            return [get_annotations(x) for x in annotation_node.elts]
+            return flatten_list([get_annotations(x) for x in annotation_node.elts])
 
         sublist = []
         if hasattr(annotation_node, 'slice'):
