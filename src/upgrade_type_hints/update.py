@@ -102,5 +102,8 @@ def update_file(
         content = remove_import(operation, content)
 
     content = new_import_statements + content
+    while isinstance(content, list) and content and not content[0].strip():
+        content = content[1:]
+
     with open(filename, 'wb') as file:
         file.writelines(content)

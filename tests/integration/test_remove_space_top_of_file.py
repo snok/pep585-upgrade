@@ -1,7 +1,6 @@
 from coverage.annotate import os
 
-example = """
-from typing import List
+example = """from typing import List
 
 from rest_framework.serializers import Serializer
 
@@ -9,8 +8,7 @@ def test(x: List[str]):
     pass
 """
 
-_expected = """
-from rest_framework.serializers import Serializer
+_expected = """from rest_framework.serializers import Serializer
 
 def test(x: list[str]):
     pass

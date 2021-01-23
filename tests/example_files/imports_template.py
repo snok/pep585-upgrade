@@ -1,9 +1,5 @@
-from __future__ import annotations
-
-from typing import List
-
-x: List
+from rest_framework.serializers import Serializer
 
 
-def b(*, x: list[str]):
+def test(x: list[str]):
     pass
