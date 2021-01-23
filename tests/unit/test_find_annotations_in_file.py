@@ -4,7 +4,7 @@ from .. import file_path
 
 
 def test_find_type_annotations_in_file():
-    annotations, _ = find_annotations_and_imports_in_file(
+    annotations, _, _ = find_annotations_and_imports_in_file(
         file_path / 'example_files/function_definition_template.py'
     )
     just_annotations = [i['annotation'] for i in annotations]

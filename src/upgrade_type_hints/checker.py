@@ -87,13 +87,18 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
     )
 
 
-def map_imports(tree: ast.Module):
+def map_imports(tree: ast.Module) -> tuple[list, bool]:
     """
     This function finds all typing imports.
     """
     imports = {}
+    futures_import_found = False
     for item in tree.body:
         if isinstance(item, (ast.Import, ast.ImportFrom)):
+            if not futures_import_found and isinstance(item, ast.ImportFrom) and item.module == '__future__':
+                for i in item.names:
+                    if i.name == 'annotations':
+                        futures_import_found = True
             if isinstance(item, ast.ImportFrom) and item.module != 'typing':
                 continue
             elif isinstance(item, ast.Import) and not any(i.name != 'typing' for i in item.names):
@@ -105,10 +110,10 @@ def map_imports(tree: ast.Module):
             for name in item.names:
                 imports[item.lineno]['names'].add(name.name)
 
-    return list(imports.values())
+    return list(imports.values()), futures_import_found
 
 
-def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]], list[dict]]:
+def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]], list[dict], bool]:
     """
     Returns a complete map of typing imports and annotations in a given file.
     """
@@ -116,7 +121,7 @@ def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]
         content = file.read()
 
     tree = ast.parse(content)
-    imports = map_imports(tree)
+    imports, futures_import_found = map_imports(tree)
     objects = get_ast_objects(tree)
 
     annotation_list: list[dict[str, str]] = []
@@ -128,4 +133,4 @@ def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]
             else:
                 annotation_list.append(result)
 
-    return annotation_list, imports
+    return annotation_list, imports, futures_import_found

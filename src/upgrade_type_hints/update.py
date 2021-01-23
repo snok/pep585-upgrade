@@ -62,7 +62,12 @@ def remove_import(operation, content):
 
 
 def update_file(
-    filename: str, futures: bool, native_types: list, imported_types: list, imports_to_delete: list
+    filename: str,
+    futures: bool,
+    native_types: list,
+    imported_types: list,
+    imports_to_delete: list,
+    futures_import_found: bool,
 ) -> None:
     """
     Reads a file, removes imports and updates types, then writes back to it.
@@ -89,7 +94,7 @@ def update_file(
 
     # Filter out repeated imports
     new_import_statements = list(set(new_import_statements))
-    if futures:
+    if futures and not futures_import_found:
         new_import_statements.insert(0, b'from __future__ import annotations\n\n')
 
     # Remove old imports
