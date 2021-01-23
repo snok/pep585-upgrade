@@ -105,8 +105,10 @@ To use this with [pre-commit](https://pre-commit.com/), simply add this to your 
   - id: upgrade-type-hints
 ```
 
-and while futures imports are added automatically, you
-can also enable them by adding a `--futures` arg:
+and while futures imports are added automatically if you're running Python older than `3.9`,
+you can also enable them explicitly, by adding a `--futures` arg.
+
+This is required, e.g., when maintaining code that needs to support older Python versions.
 
 ```yaml
 - repo: https://github.com/sondrelg/pep585-upgrade
