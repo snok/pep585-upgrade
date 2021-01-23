@@ -1,4 +1,6 @@
+import _ast
 import ast
+import sys
 import textwrap
 
 from src.upgrade_type_hints.checker import flatten_list, get_annotations, get_ast_objects
@@ -92,7 +94,10 @@ class TestAst:
         tree = ast.parse(example_code)
         objects = get_ast_objects(tree)
         tuple_object = objects[0].slice
-        assert type(tuple_object) == ast.Tuple
+        if sys.version_info < (3, 9):
+            assert type(tuple_object) == _ast.Index
+        else:
+            assert type(tuple_object) == ast.Tuple
         annotations = flatten_list([get_annotations(obj) for obj in objects])
         assert annotations[0]['annotation'] == 'one'
         assert annotations[1]['annotation'] == 'two'

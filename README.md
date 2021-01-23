@@ -103,7 +103,6 @@ To use this with [pre-commit](https://pre-commit.com/), simply add this to your 
   rev: master  # or add a specific commit sha
   hooks:
   - id: upgrade-type-hints
-    args: [ '--futures=true' ]
 ```
 
 For more information about available arguments, see the [function definitions](https://github.com/sondrelg/pep585-upgrade/blob/master/src/upgrade_type_hints/update.py#L95).

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from collections.abc import Sequence
 from typing import Optional
 
@@ -23,6 +24,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         'to the top of a file, Set to true if using this in a project running Python < 3.9',
     )
     args = parser.parse_args(argv)
+    futures: bool = args.futures or sys.version_info < (3, 9)
 
     return_value = 0
 
@@ -38,7 +40,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
         if native_types or imported_types and imports_to_delete:
             print(f'Fixing {filename}')
-            update_file(filename, args.futures, native_types, imported_types, imports_to_delete)
+            update_file(
+                filename,
+                futures=futures,
+                native_types=native_types,
+                imported_types=imported_types,
+                imports_to_delete=imports_to_delete,
+            )
             return_value = 1
 
     return exit(return_value)

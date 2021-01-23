@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # These are native types that can easily be replaced in-place
 native_types: dict[str, str] = {
     'Dict': 'dict',
