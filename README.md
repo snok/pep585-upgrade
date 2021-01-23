@@ -74,7 +74,7 @@ becomes this
 def do_thing(x: list[tuple[str, ...]], y: dict[str, set[str]]) -> frozenset:
 ```
 
-or this, if you enable the futures option
+or this, if you're running python < 3.9 or enable the futures option
 
 ```python
 from __future__ import annotations
@@ -100,7 +100,17 @@ To use this with [pre-commit](https://pre-commit.com/), simply add this to your 
 
 ```yaml
 - repo: https://github.com/sondrelg/pep585-upgrade
-  rev: master  # or add a specific commit sha
+  rev: ''  # Use the sha / tag you want to point at
+  hooks:
+  - id: upgrade-type-hints
+```
+
+and while futures imports are added automatically, you
+can also enable them by adding a `--futures` arg:
+
+```yaml
+- repo: https://github.com/sondrelg/pep585-upgrade
+  rev: ''  # Use the sha / tag you want to point at
   hooks:
   - id: upgrade-type-hints
     args: [ '--futures=true' ]

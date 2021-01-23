@@ -3,6 +3,9 @@ from __future__ import annotations
 import ast
 from typing import Union
 
+import _ast
+
+from .constants import NEEDS_FUTURES
 from .utils import flatten_list
 
 
@@ -79,6 +82,15 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
     elif node is None or isinstance(node, ast.Constant):
         # We don't care about these
         return {}
+
+    if NEEDS_FUTURES:
+        if isinstance(node, _ast.Index):
+            sublist = []
+            if hasattr(node, 'value'):
+                if not isinstance(node.value, str):
+                    sublist.append(get_annotations(node.value))
+            if sublist:
+                return flatten_list(sublist)
 
     print(
         'Found an unhandled ast object. '
