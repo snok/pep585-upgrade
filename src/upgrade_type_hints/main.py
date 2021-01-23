@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import argparse
-import sys
 from collections.abc import Sequence
 from typing import Optional
 
 from .checker import find_annotations_and_imports_in_file
+from .constants import NEEDS_FUTURES
 from .definitions import check_if_types_need_substitution
 from .update import update_file
 from .utils import get_imports_to_delete, str_to_bool
@@ -24,7 +24,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         'to the top of a file, Set to true if using this in a project running Python < 3.9',
     )
     args = parser.parse_args(argv)
-    futures: bool = args.futures or sys.version_info < (3, 9)
+    futures: bool = args.futures or NEEDS_FUTURES
 
     return_value = 0
 
