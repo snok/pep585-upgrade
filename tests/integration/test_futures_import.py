@@ -21,4 +21,4 @@ def test_no_duplicate_futures_annotations():
 
     Creating this to avoid this in the future.
     """
-    int_test(example, expected, futures=True)
+    int_test(example, expected)
