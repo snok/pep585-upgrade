@@ -29,6 +29,7 @@ def int_test(function_definition, expected, futures=False, expect_futures=True):
     expected = sorted(i for i in expected if i.replace(b'\n', b''))
 
     print(f'{result=}')
+    print(f'{expected=}')
 
     os.remove(result_path)
     os.remove(expected_path)
