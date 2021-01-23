@@ -83,14 +83,12 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
         # We don't care about these
         return {}
 
-    if NEEDS_FUTURES:
-        if isinstance(node, _ast.Index):
-            sublist = []
-            if hasattr(node, 'value'):
-                if not isinstance(node.value, str):
-                    sublist.append(get_annotations(node.value))
-            if sublist:
-                return flatten_list(sublist)
+    if NEEDS_FUTURES and isinstance(node, _ast.Index):
+        sublist = []
+        if hasattr(node, 'value') and not isinstance(node.value, str):
+            sublist.append(get_annotations(node.value))
+        if sublist:
+            return flatten_list(sublist)
 
     print(
         'Found an unhandled ast object. '
@@ -145,4 +143,4 @@ def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]
             else:
                 annotation_list.append(result)
 
-    return annotation_list, imports, futures_import_found
+    return flatten_list(annotation_list), imports, futures_import_found
