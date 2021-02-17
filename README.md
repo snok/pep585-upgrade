@@ -127,7 +127,7 @@ If you wish to run this once on your codebase, that's not easy to do *without* p
 However, installing pre-commit and configuring the hook to run will take you less than a minute. These are the steps:
 
 - Run `pip install pre-commit`
-- Run `touch pre-commit-config.yaml`
+- Run `touch .pre-commit-config.yaml`
 - Copy the configuration shown above into the file
 - Run `pre-commit run --all-files`
 
