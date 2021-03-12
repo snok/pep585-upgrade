@@ -90,12 +90,6 @@ def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
         if sublist:
             return flatten_list(sublist)
 
-    print(
-        'Found an unhandled ast object. '
-        'Please report an issue to '
-        'https://github.com/sondrelg/pep585-upgrade/issues'
-    )
-
 
 def map_imports(tree: ast.Module) -> tuple[list, bool]:
     """
