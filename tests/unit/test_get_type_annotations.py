@@ -174,3 +174,30 @@ class TestAst:
 
     def test_bad_ast_type(self):
         assert get_annotations('test') is None
+
+    def test_async_function(self):
+        """
+        Test async function handling (see https://github.com/snok/pep585-upgrade/pull/10)
+        """
+        example_code = textwrap.dedent(
+            """
+            async def test(x: int, y: str) -> None:
+                pass
+
+            """
+        )
+
+        """
+        From the example code we've set up above, we expect to receive 3 useful objects:
+
+            - The `x: int` argument (ast.Name type)
+            - The `y: str` argument (ast.Name type)
+            - The `-> None` return value (ast.Constant type)
+        """
+
+        tree = ast.parse(example_code)
+        objects = get_ast_objects(tree)
+
+        assert type(objects[0]) == ast.Name and objects[0].id == 'int'
+        assert type(objects[1]) == ast.Name and objects[1].id == 'str'
+        assert type(objects[2]) == ast.Constant and objects[2].value is None
