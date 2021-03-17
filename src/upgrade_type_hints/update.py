@@ -34,7 +34,7 @@ def remove_import(operation, content):
                     )
                     if match:
                         groups = [i for i in match.groups() if i]
-                        line = line.replace(groups[0].replace(b'\n', b''), b'')
+                        line = line.replace(groups[0].replace(b'\n', b''), b'', 1)
                     content[operation['line_start'] - 1] = line
                     break
                 else:
