@@ -15,7 +15,7 @@ def get_ast_objects(node: ast.Module) -> list[ast.AST]:
     """
     items = []
     for item in ast.walk(node):
-        if isinstance(item, ast.FunctionDef):
+        if isinstance(item, ast.FunctionDef) or isinstance(item, ast.AsyncFunctionDef):
             for argument in item.args.args + item.args.kwonlyargs:
                 if hasattr(argument, 'annotation'):
                     items.append(argument.annotation)
