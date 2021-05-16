@@ -1,4 +1,4 @@
-[![supported python versions](https://img.shields.io/badge/python-3.7%2B-blue)]()
+[![supported python versions](https://img.shields.io/badge/python-3.8%2B-blue)]()
 [![code coverage](https://codecov.io/gh/snok/pep585-upgrade/branch/master/graph/badge.svg?token=06RLJN3XNJ)](https://codecov.io/gh/snok/pep585-upgrade)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
@@ -7,7 +7,7 @@
 This is a [pre-commit](https://pre-commit.com/) hook configured to automatically upgrade your type hints
 to the new native types implemented in [PEP 585](https://www.python.org/dev/peps/pep-0585/).
 
-This will work for any Python version above `3.7`, though if you're not using `3.9` you will need to run the hook with `futures-imports=true`.
+This will work for Python `3.8` and above, though if you're not using `3.8` specifically you will need to run the hook with `futures-imports=true`.
 
 A complete type list is shown below.
 <details>
