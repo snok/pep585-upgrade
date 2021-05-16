@@ -7,7 +7,7 @@
 This is a [pre-commit](https://pre-commit.com/) hook configured to automatically upgrade your type hints
 to the new native types implemented in [PEP 585](https://www.python.org/dev/peps/pep-0585/).
 
-This will work for Python `3.8` and above, though if you're not using `3.8` specifically you will need to run the hook with `futures-imports=true`.
+This will work for Python `3.8` and above, though if you're using `3.8` specifically you will need to run the hook with `futures-imports=true`.
 
 A complete type list is shown below.
 <details>
