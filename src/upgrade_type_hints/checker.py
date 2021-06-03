@@ -117,6 +117,27 @@ def map_imports(tree: ast.Module) -> tuple[list, bool]:
     return list(imports.values()), futures_import_found
 
 
+def get_docstring_ends(item: ast.Module) -> int:
+    """Get the position doc strings ends."""
+    if ast.get_docstring(item):
+        try:
+            return item.body[0].end_lineno
+        except AttributeError:
+            return -1
+    else:
+        return -1
+
+
+def get_future_import_insert_position(tree: ast.Module) -> int:
+    """When the docstring is present on the top of the module, find where it ends."""
+    future_import_insert_position = 0
+    for idx, item in enumerate(ast.walk(tree)):
+        if idx == 0:
+            future_import_insert_position = get_docstring_ends(item)
+        break
+    return future_import_insert_position
+
+
 def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]], list[dict], bool]:
     """
     Returns a complete map of typing imports and annotations in a given file.
@@ -127,6 +148,7 @@ def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]
     tree = ast.parse(content)
     imports, futures_import_found = map_imports(tree)
     objects = get_ast_objects(tree)
+    future_import_insert_position = get_future_import_insert_position(tree)
 
     annotation_list: list[dict[str, str]] = []
     for obj in objects:
@@ -137,4 +159,4 @@ def find_annotations_and_imports_in_file(file: str) -> tuple[list[dict[str, str]
             else:
                 annotation_list.append(result)
 
-    return flatten_list(annotation_list), imports, futures_import_found
+    return flatten_list(annotation_list), imports, futures_import_found, future_import_insert_position

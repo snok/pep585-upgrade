@@ -68,6 +68,7 @@ def update_file(
     imported_types: list,
     imports_to_delete: list,
     futures_import_found: bool,
+    future_import_insert_position: int,
 ) -> None:
     """
     Reads a file, removes imports and updates types, then writes back to it.
@@ -101,6 +102,13 @@ def update_file(
     for operation in imports_to_delete:
         content = remove_import(operation, content)
 
-    content = new_import_statements + content
+    if future_import_insert_position:
+        content = (
+            content[:future_import_insert_position]
+            + new_import_statements
+            + content[future_import_insert_position:]
+        )
+    else:
+        content = new_import_statements + content
     with open(filename, 'wb') as file:
         file.writelines(content)
