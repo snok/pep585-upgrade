@@ -120,10 +120,7 @@ def map_imports(tree: ast.Module) -> tuple[list, bool]:
 def get_docstring_ends(item: ast.Module) -> int:
     """Get the position doc strings ends."""
     if ast.get_docstring(item):
-        try:
-            return item.body[0].end_lineno
-        except AttributeError:
-            return -1
+        return item.body[0].end_lineno
     else:
         return -1
 

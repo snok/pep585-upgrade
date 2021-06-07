@@ -102,7 +102,7 @@ def update_file(
     for operation in imports_to_delete:
         content = remove_import(operation, content)
 
-    if future_import_insert_position:
+    if future_import_insert_position > 0:
         content = (
             content[:future_import_insert_position]
             + new_import_statements
