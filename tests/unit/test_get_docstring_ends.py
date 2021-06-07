@@ -36,10 +36,11 @@ test_data = [
         ),
         -1,
     ),
+    ('', -1),
 ]
 
 
-@pytest.mark.parametrize("source,expected_position", test_data)
+@pytest.mark.parametrize('source,expected_position', test_data)
 def test_get_docstring_ends(source, expected_position):
     tree = ast.parse(source)
     pos = get_docstring_ends(tree)

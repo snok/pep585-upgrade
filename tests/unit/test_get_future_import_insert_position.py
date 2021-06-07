@@ -39,7 +39,7 @@ test_data = [
 ]
 
 
-@pytest.mark.parametrize("source,expected_position", test_data)
+@pytest.mark.parametrize('source,expected_position', test_data)
 def test_get_docstring_ends(source, expected_position):
     tree = ast.parse(source)
     pos = get_future_import_insert_position(tree)
