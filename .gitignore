@@ -1,6 +1,6 @@
 .venv
 *.pytest_cache
-.coverage
+.coverage*
 .idea
 *__pycache__
 dist
