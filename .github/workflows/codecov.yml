@@ -13,5 +13,3 @@ jobs:
       - uses: snok/.github/workflows/codecov@main
         with:
           source-dir: src/upgrade_type_hints
-          pip-cache-key: pip-0
-          poetry-cache-key: poetry-0
