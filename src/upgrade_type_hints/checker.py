@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ast
-from typing import Union
 
 import _ast
 
@@ -26,7 +25,7 @@ def get_ast_objects(node: ast.Module) -> list[ast.AST]:
     return items
 
 
-def get_annotations(node: ast.AST) -> Union[dict, list[dict]]:  # noqa: C901
+def get_annotations(node: ast.AST) -> dict | list[dict]:  # noqa: C901
     """
     Return all annotations contained in the received ast object.
     """

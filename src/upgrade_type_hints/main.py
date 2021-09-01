@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 from collections.abc import Sequence
-from typing import Optional
 
 from .checker import find_annotations_and_imports_in_file
 from .constants import NEEDS_FUTURES
@@ -11,7 +10,7 @@ from .update import update_file
 from .utils import get_imports_to_delete, str_to_bool
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('filenames', nargs='*', help='Filenames to run')
     parser.add_argument(

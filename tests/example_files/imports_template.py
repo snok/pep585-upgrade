@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List
 
-x: List
+x: list
 
 
 def b(*, x: list[str]):
