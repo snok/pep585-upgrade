@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pep585-upgrade"
-version = "0.1.0"
+version = "1.0.0"  # this version doesn't matter
 description = ""
 authors = ["Sondre Lillebø Gundersen <sondrelg@live.no>"]
 license = "BSD-4"

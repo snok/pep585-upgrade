@@ -1,0 +1,21 @@
+name: Tag releases with minor and major version
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  tag-v1:
+    name: Tag v1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update tag
+        run: |
+          major_tag="$(python get_version.py "${GITHUB_REF}" major)"
+          minor_tag="$(python get_version.py "${GITHUB_REF}" minor)"
+          git tag $major_tag
+          git tag $minor_tag
+          git push origin HEAD:refs/heads/master --tags --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
