@@ -7,17 +7,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: snok/.github/workflows/linting@main
+
+  get-python-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      python-matrix: ${{ steps.get-python-versions-action.outputs.latest-python-versions }}
+    steps:
+    - uses: snok/latest-python-versions@v1
+      id: get-python-versions-action
+      with:
+        min-version: 3.8
+        include-prereleases: true
+
   test:
-    # ---------------------------------------------------
-    #    Documentation and examples can be found at
-    #      https://github.com/snok/install-poetry
-    # ---------------------------------------------------
-    needs: linting
+    needs: [linting, get-python-versions]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.8", "3.9" ]
+        python-version: ${{ fromJson(needs.set-python-versions.outputs.python-matrix) }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
