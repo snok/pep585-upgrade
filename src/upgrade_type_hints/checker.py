@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import ast
-
 import _ast
+import ast
 
 from .constants import NEEDS_FUTURES
 from .utils import flatten_list
