@@ -1,11 +1,11 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: 21.8b0
+    rev: 22.1.0
     hooks:
       - id: black
         args: [ '--quiet' ]
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.1.0
     hooks:
       - id: check-case-conflict
       - id: end-of-file-fixer
@@ -15,7 +15,7 @@ repos:
       - id: detect-private-key
       - id: double-quote-string-fixer
   - repo: https://github.com/pycqa/isort
-    rev: 5.9.3
+    rev: 5.10.1
     hooks:
       - id: isort
   - repo: https://gitlab.com/pycqa/flake8
@@ -31,7 +31,7 @@ repos:
         ]
         args: [ '--enable-extensions=G' ]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.25.0
+    rev: v2.31.0
     hooks:
       - id: pyupgrade
         args: [ "--py36-plus", "--py37-plus" ]
