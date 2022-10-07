@@ -4,6 +4,13 @@
 
 # PEP585 Upgrade
 
+> This package is no longer maintained.
+>
+> When I wrote this, there were no other alternatives for upgrading type syntax,
+> but pyupgrade has since added support for this.
+> If you are looking for a way to lint your code continuously I would recommend using pyupgrade instead.
+
+
 This is a [pre-commit](https://pre-commit.com/) hook configured to automatically upgrade your type hints
 to the new native types implemented in [PEP 585](https://www.python.org/dev/peps/pep-0585/).
 
